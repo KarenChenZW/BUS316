@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BUS 316 — NovaMart CIO Challenge</title>
+  <style>
+    :root {
+      --bg:#f6f7fb;
+      --panel:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --border:#d1d5db;
+      --accent:#7c3aed;
+      --accent2:#ede9fe;
+      --danger:#b91c1c;
+      --success:#047857;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+    .wrap{
+      max-width:980px;
+      margin:0 auto;
+      padding:24px;
+    }
+    h1,h2,h3{margin-top:0}
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      gap:16px;
+      align-items:flex-start;
+      padding-bottom:18px;
+      border-bottom:1px solid var(--border);
+      margin-bottom:24px;
+    }
+    .badge{
+      display:inline-block;
+      background:var(--accent2);
+      color:var(--accent);
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:700;
+    }
+    .card{
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:20px;
+      margin-bottom:16px;
+    }
+    .grid{
+      display:grid;
+      gap:14px;
+    }
+    .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .grid-5{grid-template-columns:repeat(5,minmax(0,1fr))}
+    .metric{
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:14px;
+      background:#fafafa;
+    }
+    .metric .label{font-size:13px;color:var(--muted)}
+    .metric .value{font-size:24px;font-weight:700;margin-top:4px}
+    .callout{
+      background:var(--accent2);
+      border-left:5px solid var(--accent);
+      padding:16px;
+      border-radius:12px;
+      margin-bottom:16px;
+    }
+    .choice{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:14px;
+      background:#fff;
+      margin-bottom:10px;
+    }
+    .choice input{margin-top:4px}
+    button{
+      border:0;
+      border-radius:12px;
+      padding:11px 16px;
+      font-size:15px;
+      font-weight:700;
+      cursor:pointer;
+    }
+    .primary{background:var(--accent);color:#fff}
+    .secondary{background:#fff;border:1px solid var(--border);color:var(--text)}
+    input[type="text"]{
+      width:100%;
+      padding:11px 12px;
+      border:1px solid var(--border);
+      border-radius:10px;
+      font-size:16px;
+    }
+    .hidden{display:none}
+    .muted{color:var(--muted)}
+    .row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .progress{
+      height:10px;
+      background:#e5e7eb;
+      border-radius:999px;
+      overflow:hidden;
+      margin-top:8px;
+    }
+    .progress > div{
+      height:100%;
+      background:var(--accent);
+    }
+    #toast{
+      position:sticky;
+      bottom:16px;
+      margin-top:16px;
+      border:1px solid var(--border);
+      background:#fff;
+      padding:12px 14px;
+      border-radius:10px;
+    }
+    @media(max-width:760px){
+      .grid-2,.grid-3,.grid-5{grid-template-columns:1fr}
+      .topbar{flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <span class="badge">BUS 316 • Day 1 Simulation</span>
+      <h1 style="margin-top:12px;">NovaMart CIO Challenge</h1>
+      <p class="muted">Run the technology strategy of a growing retailer. Your choices affect finance, customers, data, security, and employees.</p>
+    </div>
+    <div class="metric" style="min-width:150px">
+      <div class="label">Round</div>
+      <div id="roundLabel" class="value">Setup</div>
+    </div>
+  </div>
+
+  <section id="setup">
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>Your company</h3>
+        <div class="grid grid-2">
+          <div class="metric"><div class="label">Revenue</div><div class="value">$80M</div></div>
+          <div class="metric"><div class="label">Employees</div><div class="value">750</div></div>
+          <div class="metric"><div class="label">Stores</div><div class="value">32</div></div>
+          <div class="metric"><div class="label">Online sales</div><div class="value">28%</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Current problems</h3>
+        <p>⚠ Inventory reports are 24 hours behind.</p>
+        <p>⚠ Customer information exists in multiple systems.</p>
+        <p>⚠ Managers rely heavily on spreadsheets.</p>
+        <p>⚠ Online customer satisfaction is falling.</p>
+        <p>⚠ Cybersecurity infrastructure is outdated.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <label for="teamName"><strong>Team name</strong></label>
+      <p class="muted">Choose a team name your classmates will recognize.</p>
+      <input id="teamName" type="text" maxlength="24" placeholder="e.g., Team Quantum">
+      <button id="startBtn" class="primary" style="margin-top:14px;">Start the challenge</button>
+    </div>
+  </section>
+
+  <section id="investment" class="hidden">
+    <div class="callout">
+      <strong>Round 1 — Build your technology portfolio</strong>
+      <div>You have <strong>$2.0 million</strong>. Select investments without exceeding your budget.</div>
+    </div>
+
+    <div class="grid grid-2">
+      <label class="choice"><input class="invest" type="checkbox" value="erp"><span><strong>ERP modernization</strong><br><span class="muted">$800K • Process integration + operational reliability</span></span></label>
+      <label class="choice"><input class="invest" type="checkbox" value="cloud"><span><strong>Cloud data platform</strong><br><span class="muted">$600K • Better data integration + scalability</span></span></label>
+      <label class="choice"><input class="invest" type="checkbox" value="bi"><span><strong>Business Intelligence platform</strong><br><span class="muted">$500K • Dashboards + decision support</span></span></label>
+      <label class="choice"><input class="invest" type="checkbox" value="cyber"><span><strong>Cybersecurity upgrade</strong><br><span class="muted">$500K • Detection + protection + response readiness</span></span></label>
+      <label class="choice"><input class="invest" type="checkbox" value="ai"><span><strong>Generative AI system</strong><br><span class="muted">$400K • Automation + personalization + decision support</span></span></label>
+      <label class="choice"><input class="invest" type="checkbox" value="mobile"><span><strong>Customer mobile app</strong><br><span class="muted">$400K • Digital engagement + convenience</span></span></label>
+      <label class="choice"><input class="invest" type="checkbox" value="training"><span><strong>Employee technology training</strong><br><span class="muted">$300K • Adoption + capability + change readiness</span></span></label>
+    </div>
+
+    <div class="grid grid-3">
+      <div class="metric"><div class="label">Budget used</div><div id="usedBudget" class="value">$0K</div></div>
+      <div class="metric"><div class="label">Remaining</div><div id="remainingBudget" class="value">$2,000K</div></div>
+      <div class="metric"><div class="label">Investments</div><div id="investmentCount" class="value">0</div></div>
+    </div>
+    <p id="budgetMessage" class="muted"></p>
+    <button id="lockInvestments" class="primary">Lock Round 1 decisions</button>
+  </section>
+
+  <section id="event1" class="hidden">
+    <div class="callout">
+      <strong>🚨 Round 2 — Competitive Shock</strong>
+      <div>Your largest competitor launches an AI-powered personalized shopping platform. NovaMart's online traffic is projected to fall 8%.</div>
+    </div>
+    <div class="card">
+      <h3>What do you do?</h3>
+      <label class="choice"><input type="radio" name="e1" value="ai"><span>A. Invest aggressively in AI personalization</span></label>
+      <label class="choice"><input type="radio" name="e1" value="marketing"><span>B. Increase digital marketing</span></label>
+      <label class="choice"><input type="radio" name="e1" value="analytics"><span>C. Improve customer analytics first</span></label>
+      <label class="choice"><input type="radio" name="e1" value="stay"><span>D. Stay with the original strategy</span></label>
+      <button data-next="event1" class="decisionBtn primary">Submit decision</button>
+    </div>
+  </section>
+
+  <section id="event2" class="hidden">
+    <div class="callout">
+      <strong>🔐 Round 3 — Cybersecurity Crisis</strong>
+      <div>Unusual database activity is detected overnight. IT cannot yet determine whether customer records were accessed.</div>
+    </div>
+    <div class="card">
+      <h3>Your response?</h3>
+      <label class="choice"><input type="radio" name="e2" value="shutdown"><span>A. Shut down customer systems immediately</span></label>
+      <label class="choice"><input type="radio" name="e2" value="investigate"><span>B. Investigate while keeping systems running</span></label>
+      <label class="choice"><input type="radio" name="e2" value="notify"><span>C. Notify all customers immediately</span></label>
+      <label class="choice"><input type="radio" name="e2" value="outside"><span>D. Bring in an outside cybersecurity response firm</span></label>
+      <button data-next="event2" class="decisionBtn primary">Submit decision</button>
+    </div>
+  </section>
+
+  <section id="event3" class="hidden">
+    <div class="callout">
+      <strong>📊 Round 4 — The CEO Wants Answers</strong>
+      <div>Customer churn increased last quarter. The CEO asks: “Which customers are most likely to leave us next quarter, and what should we do?”</div>
+    </div>
+    <div class="card">
+      <h3>Choose your analytical response.</h3>
+      <label class="choice"><input type="radio" name="e3" value="reports"><span>A. Analyze historical reports</span></label>
+      <label class="choice"><input type="radio" name="e3" value="dashboard"><span>B. Build an executive customer dashboard</span></label>
+      <label class="choice"><input type="radio" name="e3" value="predictive"><span>C. Develop a predictive churn model</span></label>
+      <label class="choice"><input type="radio" name="e3" value="genai"><span>D. Ask GenAI to recommend which customers will leave</span></label>
+      <button data-next="event3" class="decisionBtn primary">Submit decision</button>
+    </div>
+  </section>
+
+  <section id="event4" class="hidden">
+    <div class="callout">
+      <strong>⚡ Final Round — Surprise Event</strong>
+      <div id="surpriseText"></div>
+    </div>
+    <div class="card">
+      <h3>Final leadership decision</h3>
+      <label class="choice"><input type="radio" name="e4" value="speed"><span>A. Move fast and prioritize immediate business impact</span></label>
+      <label class="choice"><input type="radio" name="e4" value="data"><span>B. Gather more data before acting</span></label>
+      <label class="choice"><input type="radio" name="e4" value="people"><span>C. Focus on employees, customers, and communication</span></label>
+      <label class="choice"><input type="radio" name="e4" value="balanced"><span>D. Use a balanced response across technology, data, and people</span></label>
+      <button data-next="event4" class="decisionBtn primary">Finish simulation</button>
+    </div>
+  </section>
+
+  <section id="results" class="hidden">
+    <div class="row" style="justify-content:space-between;align-items:flex-start">
+      <div>
+        <span class="badge">Final performance report</span>
+        <h2 id="resultTeam" style="margin-top:12px"></h2>
+      </div>
+      <div class="metric" style="min-width:190px;text-align:center">
+        <div class="label">Overall score</div>
+        <div id="overallScore" class="value">0</div>
+        <div class="muted">out of 100</div>
+      </div>
+    </div>
+
+    <div id="scoreCards" class="grid grid-5"></div>
+
+    <div class="card">
+      <h3>Strategic assessment</h3>
+      <div id="assessment"></div>
+    </div>
+
+    <div class="callout">
+      <strong>Debrief question</strong>
+      <div>If another retailer can buy the same technologies tomorrow, what part of your advantage would actually be difficult to copy?</div>
+    </div>
+
+    <div class="row">
+      <button id="restartBtn" class="secondary">Play again</button>
+      <button id="showLogicBtn" class="primary">Reveal learning logic</button>
+    </div>
+
+    <div id="learningLogic" class="card hidden" style="margin-top:16px">
+      <h3>What this simulation was designed to show</h3>
+      <ul>
+        <li>Technology investments create value as a <strong>system</strong>, not as isolated purchases.</li>
+        <li>AI becomes more useful when an organization has strong data and analytics capabilities.</li>
+        <li>Cybersecurity is partly an investment decision made <strong>before</strong> a crisis occurs.</li>
+        <li>Business intelligence connects data to managerial decisions rather than merely producing dashboards.</li>
+        <li>Employee capability and organizational processes can determine whether technology creates value.</li>
+        <li>Competitive advantage depends on combinations of technology, data, people, processes, and execution that may be difficult for rivals to copy.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div id="toast" class="hidden"></div>
+</div>
+
+<script>
+(() => {
+  const sections = ['setup','investment','event1','event2','event3','event4','results'];
+  const costs = {erp:800, cloud:600, bi:500, cyber:500, ai:400, mobile:400, training:300};
+  const state = {
+    team:'', investments:[], e1:null, e2:null, e3:null, e4:null,
+    scores:{finance:58, customer:58, data:48, security:42, people:52}
+  };
+
+  const $ = id => document.getElementById(id);
+  const show = id => {
+    sections.forEach(s => $(s).classList.toggle('hidden', s !== id));
+    const labels = {setup:'Setup',investment:'1 / 5',event1:'2 / 5',event2:'3 / 5',event3:'4 / 5',event4:'5 / 5',results:'Complete'};
+    $('roundLabel').textContent = labels[id];
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+
+  const toast = (msg, bad=false) => {
+    const el = $('toast');
+    el.textContent = msg;
+    el.classList.remove('hidden');
+    el.style.color = bad ? 'var(--danger)' : 'var(--text)';
+    setTimeout(() => el.classList.add('hidden'), 2500);
+  };
+
+  const clamp = n => Math.max(20, Math.min(100, Math.round(n)));
+
+  $('startBtn').addEventListener('click', () => {
+    const team = $('teamName').value.trim();
+    if (!team) return toast('Enter a team name before starting.', true);
+    state.team = team;
+    show('investment');
+  });
+
+  const updateBudget = () => {
+    const selected = [...document.querySelectorAll('.invest:checked')].map(x=>x.value);
+    const used = selected.reduce((s,k)=>s+costs[k],0);
+    $('usedBudget').textContent = '$' + used.toLocaleString() + 'K';
+    $('remainingBudget').textContent = '$' + (2000-used).toLocaleString() + 'K';
+    $('investmentCount').textContent = selected.length;
+    $('budgetMessage').textContent = used > 2000
+      ? 'You are over budget. Remove at least one investment.'
+      : used < 1500
+      ? 'You still have substantial unused budget. That may be strategic—or risky.'
+      : 'Portfolio is within budget.';
+    $('budgetMessage').style.color = used > 2000 ? 'var(--danger)' : 'var(--muted)';
+  };
+
+  document.querySelectorAll('.invest').forEach(x=>x.addEventListener('change',updateBudget));
+
+  $('lockInvestments').addEventListener('click', () => {
+    const selected = [...document.querySelectorAll('.invest:checked')].map(x=>x.value);
+    const used = selected.reduce((s,k)=>s+costs[k],0);
+
+    if (!selected.length) return toast('Choose at least one investment.', true);
+    if (used > 2000) return toast('Your portfolio exceeds the $2M budget.', true);
+
+    state.investments = selected;
+    const s = state.scores;
+
+    if (selected.includes('erp')) { s.finance+=6; s.data+=6; s.people-=2; }
+    if (selected.includes('cloud')) { s.data+=14; s.finance-=2; s.security+=2; }
+    if (selected.includes('bi')) { s.data+=12; s.finance+=4; }
+    if (selected.includes('cyber')) { s.security+=22; s.finance-=2; }
+    if (selected.includes('ai')) { s.customer+=8; s.data+=5; s.finance+=4; }
+    if (selected.includes('mobile')) { s.customer+=13; s.finance+=3; }
+    if (selected.includes('training')) { s.people+=20; s.data+=3; }
+
+    if (selected.includes('ai') && selected.includes('cloud')) { s.data+=7; s.customer+=5; }
+    if (selected.includes('ai') && !selected.includes('cloud') && !selected.includes('bi')) { s.data-=7; s.people-=4; }
+    if (selected.includes('erp') && selected.includes('training')) { s.people+=7; s.finance+=4; }
+    if (selected.includes('bi') && selected.includes('cloud')) { s.data+=7; }
+    if (selected.includes('mobile') && selected.includes('bi')) { s.customer+=5; }
+    if (used < 1500) s.finance+=4;
+
+    show('event1');
+  });
+
+  const selectedRadio = name => {
+    const el = document.querySelector(`input[name="${name}"]:checked`);
+    return el ? el.value : null;
+  };
+
+  document.querySelectorAll('.decisionBtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const event = btn.dataset.next;
+      const name = event === 'event1' ? 'e1' : event === 'event2' ? 'e2' : event === 'event3' ? 'e3' : 'e4';
+      const choice = selectedRadio(name);
+      if (!choice) return toast('Choose an option before continuing.', true);
+
+      state[name] = choice;
+      const s = state.scores;
+      const inv = state.investments;
+
+      if (name === 'e1') {
+        if (choice === 'ai') {
+          s.customer += inv.includes('ai') ? 12 : 6;
+          s.finance += inv.includes('cloud') || inv.includes('bi') ? 7 : -4;
+          if (!inv.includes('training')) s.people -= 3;
+        }
+        if (choice === 'marketing') { s.customer+=7; s.finance-=3; }
+        if (choice === 'analytics') { s.data+=10; s.customer+=6; if(inv.includes('bi')) s.customer+=5; }
+        if (choice === 'stay') { s.finance+=5; s.customer-=7; }
+        show('event2');
+        return;
+      }
+
+      if (name === 'e2') {
+        const protectedOrg = inv.includes('cyber');
+        if (!protectedOrg) { s.security-=10; s.finance-=5; }
+        if (choice === 'shutdown') { s.security+=12; s.finance-=7; s.customer-=5; }
+        if (choice === 'investigate') { s.finance+=3; s.security += protectedOrg ? 13 : 3; if(!protectedOrg) s.customer-=4; }
+        if (choice === 'notify') { s.customer+=6; s.security+=4; s.finance-=4; }
+        if (choice === 'outside') { s.security+=15; s.finance-=6; s.people+=3; }
+        show('event3');
+        return;
+      }
+
+      if (name === 'e3') {
+        if (choice === 'reports') { s.data+=3; s.finance+=2; }
+        if (choice === 'dashboard') { s.data += inv.includes('bi') ? 12 : 6; s.people+=3; }
+        if (choice === 'predictive') {
+          const ready = inv.includes('cloud') || inv.includes('bi');
+          s.data += ready ? 15 : 5;
+          s.customer += ready ? 10 : 3;
+          s.finance += ready ? 7 : -2;
+        }
+        if (choice === 'genai') {
+          const ready = inv.includes('ai') && (inv.includes('cloud') || inv.includes('bi'));
+          s.data += ready ? 10 : -5;
+          s.customer += ready ? 8 : 1;
+          if (!ready) s.security-=2;
+        }
+
+        const surprises = [
+          'A viral social-media complaint claims NovaMart does not understand its customers. The post is spreading quickly.',
+          'A supplier disruption threatens to create stockouts in several high-margin categories next week.',
+          'A new privacy requirement will increase scrutiny of how NovaMart collects and uses customer information.',
+          'A regional competitor begins an aggressive price war while NovaMart is still modernizing its systems.',
+          'A major corporate customer offers NovaMart a large new contract—but only if the company can provide reliable real-time inventory data.'
+        ];
+        $('surpriseText').textContent = surprises[Math.floor(Math.random()*surprises.length)];
+        show('event4');
+        return;
+      }
+
+      if (name === 'e4') {
+        if (choice === 'speed') { s.finance+=7; s.customer+=3; s.security-=4; }
+        if (choice === 'data') { s.data+=8; s.finance-=2; }
+        if (choice === 'people') { s.people+=10; s.customer+=7; }
+        if (choice === 'balanced') { s.finance+=5; s.customer+=5; s.data+=5; s.security+=5; s.people+=5; }
+        renderResults();
+        show('results');
+      }
+    });
+  });
+
+  function renderResults(){
+    Object.keys(state.scores).forEach(k => state.scores[k] = clamp(state.scores[k]));
+
+    const weights = {finance:.22,customer:.20,data:.24,security:.18,people:.16};
+    const overall = Math.round(Object.keys(weights).reduce((sum,k)=>sum + state.scores[k]*weights[k],0));
+
+    $('resultTeam').textContent = state.team + ' — NovaMart Executive Team';
+    $('overallScore').textContent = overall;
+
+    const labels = {
+      finance:'Financial',
+      customer:'Customer',
+      data:'Data & BI',
+      security:'Security',
+      people:'People & Adoption'
+    };
+
+    $('scoreCards').innerHTML = Object.entries(labels).map(([k,label]) => `
+      <div class="metric">
+        <div class="label">${label}</div>
+        <div class="value">${state.scores[k]}</div>
+        <div class="progress"><div style="width:${state.scores[k]}%"></div></div>
+      </div>
+    `).join('');
+
+    const strengths = Object.entries(state.scores).sort((a,b)=>b[1]-a[1]);
+    const top = labels[strengths[0][0]];
+    const weak = labels[strengths[strengths.length-1][0]];
+    const inv = state.investments;
+    const notes = [];
+
+    notes.push(`<p><strong>Strongest capability:</strong> ${top}. Your decisions created the most value here.</p>`);
+    notes.push(`<p><strong>Primary vulnerability:</strong> ${weak}. A competitor or future disruption could exploit this gap.</p>`);
+
+    if (inv.includes('ai') && (inv.includes('cloud') || inv.includes('bi'))) {
+      notes.push('<p><strong>Strategic fit:</strong> Your AI investment was supported by data/BI capability, making it more useful than a stand-alone technology purchase.</p>');
+    }
+
+    if (inv.includes('ai') && !inv.includes('cloud') && !inv.includes('bi')) {
+      notes.push('<p><strong>Strategic warning:</strong> You invested in AI without building a strong data/BI foundation. Advanced technology cannot fully compensate for weak information infrastructure.</p>');
+    }
+
+    if (inv.includes('training')) {
+      notes.push('<p><strong>Organizational capability:</strong> Training improved adoption and helped convert technology investment into organizational capability.</p>');
+    }
+
+    if (!inv.includes('cyber')) {
+      notes.push('<p><strong>Risk exposure:</strong> Cybersecurity was underfunded before the crisis, demonstrating how risk decisions made early constrain later options.</p>');
+    }
+
+    $('assessment').innerHTML = notes.join('');
+  }
+
+  $('restartBtn').addEventListener('click', () => window.location.reload());
+  $('showLogicBtn').addEventListener('click', () => $('learningLogic').classList.toggle('hidden'));
+})();
+</script>
+</body>
+</html>

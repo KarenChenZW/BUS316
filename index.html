@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BUS 316 · Course Home · Fall 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0C2340; --navy-800:#102C4C; --navy-700:#17395F;
+    --teal:#17A2A2; --teal-deep:#0E7C7B; --teal-bright:#2BD4C4;
+    --gold:#E6B24A; --sand:#C9862E;
+    --paper:#F5F7FA; --card:#FFFFFF; --ink:#16232F; --mute:#64778B;
+    --line:#E3E8EF; --line-dark:#274264;
+    --mono:'IBM Plex Mono',monospace; --disp:'Space Grotesk',sans-serif; --body:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);color:var(--ink);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+  a{text-decoration:none;color:inherit}
+  .wrap{max-width:940px;margin:0 auto;padding:0 24px;width:100%}
+
+  header{background:radial-gradient(760px 320px at 82% -12%,rgba(43,212,196,.16),transparent 60%),radial-gradient(600px 300px at 4% 116%,rgba(230,178,74,.10),transparent 62%),var(--navy);color:#eaf1f8;padding:52px 0 48px}
+  .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--teal-bright)}
+  header h1{font-family:var(--disp);font-weight:700;letter-spacing:-.02em;font-size:clamp(1.9rem,5vw,3rem);margin-top:8px;color:#fff;line-height:1.05}
+  header h1 .amp{color:var(--gold)}
+  .sub{font-family:var(--mono);font-size:.82rem;color:#9fb2c9;margin-top:12px}
+  .welcome{color:#cdd8e6;margin-top:16px;max-width:56ch}
+
+  main{flex:1;padding:52px 0 40px}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+
+  .tile{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px;transition:.18s;display:block;overflow:hidden}
+  .tile.live{border-top:4px solid var(--teal)}
+  .tile.live:hover{transform:translateY(-4px);box-shadow:0 18px 38px -20px rgba(12,35,64,.5);border-color:var(--teal)}
+  .tile.soon{border-top:4px solid var(--line);opacity:.75}
+  .tile .ic{font-size:1.6rem}
+  .tile h2{font-family:var(--disp);font-weight:700;font-size:1.28rem;margin-top:12px}
+  .tile p{color:var(--mute);font-size:.92rem;margin-top:8px}
+  .tile .go{font-family:var(--mono);font-size:.78rem;color:var(--teal-deep);margin-top:16px;display:inline-flex;align-items:center;gap:6px}
+  .tag{position:absolute;top:20px;right:22px;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:20px}
+  .tag.on{background:#e7f6f5;color:var(--teal-deep)}
+  .tag.off{background:#eef1f5;color:var(--mute)}
+
+  .strip{margin-top:26px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 22px;display:flex;flex-wrap:wrap;gap:10px 26px;align-items:center}
+  .strip .k{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+  .strip .v{font-family:var(--disp);font-weight:600;font-size:.95rem}
+  .strip a.v{color:var(--teal-deep)}
+
+  footer{background:var(--navy);color:#9fb2c9;padding:26px 0;font-family:var(--mono);font-size:.72rem}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  footer a{color:var(--teal-bright)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Fall 2026 · Campbell School of Business · Berry College</div>
+    <h1>BUS 316 — Business Intelligence <span class="amp">&</span> Information Systems</h1>
+    <div class="sub">Sections A & B · Dr. Zhuowen (Karen) Chen</div>
+    <p class="welcome">Welcome — this is the home base for everything in the course. Bookmark it. New simulations and games will show up here as the semester goes on.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="grid">
+
+      <a class="tile live" href="./syllabus/">
+        <span class="tag on">Live</span>
+        <div class="ic">📘</div>
+        <h2>Interactive Syllabus</h2>
+        <p>Grades, policies, the full schedule, and a course map you can click through. Choose your section (A or B) inside for the right meeting time and final-exam date.</p>
+        <span class="go">Open the syllabus →</span>
+      </a>
+
+      <a class="tile live" href="./simulations/novamart-cio-challenge.html">
+        <span class="tag on">Live</span>
+        <div class="ic">🎛️</div>
+        <h2>NovaMart CIO Challenge</h2>
+        <p>Our day-one simulation: step into the CIO's chair at NovaMart and make the calls that turn data and IT into real business advantage. More simulations added as we go.</p>
+        <span class="go">Start the simulation →</span>
+      </a>
+
+      <div class="tile soon">
+        <span class="tag off">Coming soon</span>
+        <div class="ic">🎮</div>
+        <h2>Games & Challenges</h2>
+        <p>Quick concept games to test what you've learned — matching, sorting, and timed challenges tied to each module.</p>
+        <span class="go" style="color:var(--mute)">Added as we go</span>
+      </div>
+
+      <a class="tile live" href="https://berry.instructure.com" target="_blank" rel="noopener">
+        <span class="tag on">External</span>
+        <div class="ic">🎓</div>
+        <h2>Canvas</h2>
+        <p>Announcements, readings, assignment submissions, and grades all live in Canvas. This hub links out to what you'll need there.</p>
+        <span class="go">Go to Canvas →</span>
+      </a>
+
+    </div>
+
+    <div class="strip">
+      <span><span class="k">Meets</span><br><span class="v">Tue & Thu · Green 109</span></span>
+      <span><span class="k">Section A</span><br><span class="v">2:00–3:15 pm</span></span>
+      <span><span class="k">Section B</span><br><span class="v">3:30–4:45 pm</span></span>
+      <span><span class="k">Instructor</span><br><a class="v" href="mailto:kchen@berry.edu">kchen@berry.edu</a></span>
+      <span><span class="k">Office</span><br><span class="v">Green 412 · Mon & Wed 9–12</span></span>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>BUS 316 · Business Intelligence & Information Systems · Fall 2026</span>
+    <span>Home for the syllabus, simulations & games.</span>
+  </div>
+</footer>
+</body>
+</html>
